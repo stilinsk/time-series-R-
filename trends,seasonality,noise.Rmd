@@ -1,0 +1,70 @@
+
+
+#Create a time series plot, identify trends, seasonality, and noise.
+library(ggplot2)  # For creating plots
+library(stats)    # For decompose function
+
+
+head(gas)
+# Create a time series object 'tsgas' for GasUse
+tsgas <- ts(gas$GasUse, frequency = 12, start = c(1, 1))
+
+# Create a time series object 'tselectric' for ElectricUse
+tselectric <- ts(gas$ElectricUse, frequency = 12, start = c(1, 1))
+
+# Decompose 'tsgas' into trend, seasonality, and remainder (noise)
+decomp_gas <- decompose(tsgas)
+
+# Decompose 'tselectric' into trend, seasonality, and remainder (noise)
+decomp_electric <- decompose(tselectric)
+
+# Plot the original time series for GasUse
+ggplot() +
+  geom_line(aes(x = time(tsgas), y = tsgas), color = "blue") +
+  labs(title = "GasUse - Original Time Series") +
+  theme_minimal()
+
+# Plot the trend component for GasUse
+ggplot() +
+  geom_line(aes(x = time(decomp_gas$trend), y = decomp_gas$trend), color = "red") +
+  labs(title = "GasUse - Trend Component") +
+  theme_minimal()
+
+# Plot the seasonal component for GasUse
+ggplot() +
+  geom_line(aes(x = time(decomp_gas$seasonal), y = decomp_gas$seasonal), color = "green") +
+  labs(title = "GasUse - Seasonal Component") +
+  theme_minimal()
+
+# Plot the remainder (noise) component for GasUse
+ggplot() +
+  geom_line(aes(x = time(decomp_gas$random), y = decomp_gas$random), color = "purple") +
+  labs(title = "GasUse - Remainder (Noise) Component") +
+  theme_minimal()
+
+# Similar plots for ElectricUse
+ggplot() +
+  geom_line(aes(x = time(tselectric), y = tselectric), color = "blue") +
+  labs(title = "ElectricUse - Original Time Series") +
+  theme_minimal()
+
+
+# Plot the trend component for ElectricUse
+ggplot() +
+  geom_line(aes(x = time(decomp_electric$trend), y = decomp_electric$trend), color = "red") +
+  labs(title = "ElectricUse - Trend Component") +
+  theme_minimal()
+
+
+# Plot the seasonal component for ElectricUse
+ggplot() +
+  geom_line(aes(x = time(decomp_electric$seasonal), y = decomp_electric$seasonal), color = "green") +
+  labs(title = "ElectricUse - Seasonal Component") +
+  theme_minimal()
+  
+
+# Plot the remainder (noise) component for GasUse
+ggplot() +
+  geom_line(aes(x = time(decomp_electric$random), y = decomp_electric$random), color = "purple") +
+  labs(title = "ElectricUse - Remainder (Noise) Component") +
+  theme_minimal()
