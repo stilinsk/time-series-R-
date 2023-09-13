@@ -1,0 +1,66 @@
+# Install and load the 'readxl' package for reading Excel files
+install.packages("readxl")
+library(readxl)
+
+# Load the 'gas' dataset (assuming it's previously loaded or available)
+head(gas)
+
+# Check the class of the 'gas' dataset
+class(gas)
+
+# Display help documentation for the 'ts' function
+help(ts)
+
+# Create a time series object 'tsgas' from the 'GasUse' column of the 'gas' dataset
+tsgas <- ts(gas$GasUse, frequency = 12, start = c(1, 1))
+
+# Display the 'tsgas' time series
+tsgas
+
+# Plot the 'tsgas' time series
+plot(tsgas)
+
+# Apply Holt-Winters exponential smoothing to 'tsgas'
+hwgas <- HoltWinters(tsgas)
+
+# Plot the Holt-Winters smoothing results
+plot(hwgas)
+
+# Install and load the 'forecast' package for forecasting
+install.packages("forecast")
+library(forecast)
+
+# Forecast the next year ('h = 12' indicates 12 months into the future) using Holt-Winters
+nextyr <- forecast(hwgas, h = 12)
+
+# Calculate and display accuracy measures for the forecast
+accuracy(nextyr)
+
+# Plot the forecasted values
+plot(nextyr)
+
+# Create a time series object 'thgas' from the 'ElectricUse' column of the 'gas' dataset
+thgas <- ts(gas$ElectricUse, frequency = 12, start = c(1, 1))
+
+# Display the 'thgas' time series
+thgas
+
+# Plot the 'thgas' time series
+plot(thgas)
+
+# Apply Holt-Winters exponential smoothing to 'thgas'
+hegas <- HoltWinters(thgas)
+
+# Plot the Holt-Winters smoothing results for 'thgas'
+plot(hegas)
+
+# Forecast the next year using Holt-Winters for 'thgas'
+nxtyr <- forecast(hegas, h = 12)
+
+# Calculate and display accuracy measures for the forecast
+accuracy(nxtyr)
+
+# Plot the forecasted values
+plot(nxtyr)
+
+
